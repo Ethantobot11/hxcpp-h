@@ -42,16 +42,6 @@ jobs:
       - name: Check XCode
         if: startsWith(matrix.os,'macos')
         run: xcode-select -p
-          
-      - name: Build Cppia
-        run: |
-          cd project
-          haxe compile-cppia.hxml -D HXCPP_M64
-          
-      - name: Clean Project
-        if: startsWith(matrix.os,'ubuntu')
-        run: |
-          rm -rf project/cppia_bin
 
       - name: Archive Linux Results
         if: startsWith(matrix.os,'ubuntu')
