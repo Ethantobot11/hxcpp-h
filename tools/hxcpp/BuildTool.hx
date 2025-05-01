@@ -45,7 +45,7 @@ typedef Linkers = Hash<Linker>;
 
 class BuildTool
 {
-   public inline static var SupportedVersion = 430;
+   public inline static var SupportedVersion = 500;
 
    var mDefines:Hash<String>;
    var mCurrentIncludeFile:String;
@@ -576,7 +576,7 @@ class BuildTool
                   first = false;
                   Log.lock();
                   Log.println("");
-                  Log.info("\x1b[33;1mCompiling group: " + group.mId + " (" + to_be_compiled.length + " file" + (to_be_compiled.length==1 ? "" : "s") + ")\x1b[0m");
+                  Log.info("\x1b[33;1mCompiling group: " + group.mId + "\x1b[0m");
                   var message = "\x1b[1m" + (nvcc ? getNvcc() : mCompiler.mExe) + "\x1b[0m";
                   var flags = group.mCompilerFlags;
                   if (!nvcc)
@@ -612,15 +612,10 @@ class BuildTool
          } : null;
 
          Profile.push("compile");
-
-         var compile_progress = null;
-         if (!Log.verbose)
-            compile_progress = new Progress(0,to_be_compiled.length);
-
          if (threadPool==null)
          {
             for(file in to_be_compiled)
-               mCompiler.compile(file,-1,groupHeader,pchStamp,compile_progress);
+               mCompiler.compile(file,-1,groupHeader,pchStamp);
          }
          else
          {
@@ -636,7 +631,7 @@ class BuildTool
                         break;
                      var file = to_be_compiled[index];
 
-                     compiler.compile(file,threadId,groupHeader,pchStamp,compile_progress);
+                     compiler.compile(file,threadId,groupHeader,pchStamp);
                   }
             });
          }
@@ -1268,7 +1263,7 @@ class BuildTool
                case "ext" : target.setExt( (substitute(el.att.value)) );
                case "builddir" : target.mBuildDir = substitute(el.att.name);
                case "libpath" : target.mLibPaths.push( substitute(el.att.name) );
-               case "fullouput" : target.mFullOutputName = substitute(el.att.name);
+               case "fulloutput" : target.mFullOutputName = substitute(el.att.name);
                case "fullunstripped" : target.mFullUnstrippedName = substitute(el.att.name);
                case "files" :
                   var id = el.att.id;
@@ -2059,6 +2054,7 @@ class BuildTool
          if(defines.exists("windows"))
          {
             defines.set("toolchain","mingw");
+            defines.set("mingw", "mingw");
             defines.set("xcompile","1");
             defines.set("BINDIR", arm64 ? "WindowsArm64" : m64 ? "Windows64":"Windows");
          }
@@ -2366,7 +2362,7 @@ class BuildTool
    public function checkToolVersion(inVersion:String)
    {
       var ver = Std.parseInt(inVersion);
-      if (ver>6)
+      if (ver>7)
          Log.error("Your version of hxcpp.n is out-of-date.  Please update by compiling 'haxe compile.hxml' in hxcpp/tools/hxcpp.");
    }
 
