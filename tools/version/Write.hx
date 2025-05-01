@@ -56,8 +56,8 @@ class Write
                case _:
                   throw new Exception('Invalid version in tag');
             }
-         case other:
-            throw new Exception('Invalid version $other');
+         /*case other:
+            throw new Exception('Invalid version $other');*/
       }
    }
 }
