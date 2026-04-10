@@ -8,6 +8,20 @@
 #ifndef ZCONF_H
 #define ZCONF_H
 
+/* --- ADD THIS BLOCK --- */
+#if defined(__APPLE__) || defined(MACOSX) || defined(IPHONE)
+    #include <TargetConditionals.h>
+    /* Force the types to avoid MacTypes.h conflicts */
+    #define __MACTYPES__ 
+    #ifndef Byte
+        typedef unsigned char Byte;
+    #endif
+    #ifndef Bytef
+        typedef unsigned char Bytef;
+    #endif
+#endif
+/* --- END OF BLOCK --- */
+
 /*
  * If you *really* need a unique prefix for all types and library functions,
  * compile with -DZ_PREFIX. The "standard" zlib should be compiled without it.
