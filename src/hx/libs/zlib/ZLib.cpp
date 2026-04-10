@@ -10,14 +10,16 @@
 // --- ADD THIS BLOCK START ---
 #ifdef __APPLE__
    #include <TargetConditionals.h>
-   // Force define Byte if it's missing or conflicted on Apple platforms
-   #ifndef Byte
+   // Define these before ANY other header can mess them up
    typedef unsigned char Byte;
-   #endif
-   #ifndef Bytef
    typedef unsigned char Bytef;
-   #endif
+   #define BYTE_ALREADY_DEFINED 
 #endif
+
+#include <hxcpp.h>
+#include <stdlib.h>
+#include <string.h>
+#include <zlib.h>
 // --- ADD THIS BLOCK END ---
 
 #include <zlib.h>
