@@ -3,6 +3,25 @@
 #include <string.h>
 #include <zlib.h>
 
+#include <hxcpp.h>
+#include <stdlib.h>
+#include <string.h>
+
+// --- ADD THIS BLOCK START ---
+#ifdef __APPLE__
+   #include <TargetConditionals.h>
+   // Force define Byte if it's missing or conflicted on Apple platforms
+   #ifndef Byte
+   typedef unsigned char Byte;
+   #endif
+   #ifndef Bytef
+   typedef unsigned char Bytef;
+   #endif
+#endif
+// --- ADD THIS BLOCK END ---
+
+#include <zlib.h>
+
 /**
    <doc>
    <h1>ZLib</h1>
