@@ -79,5 +79,7 @@
    </section>
 </target>
 
+<compilerflag value="-Wno-error=incompatible-pointer-types" if="macos || ios" />
+
 
 </xml>
